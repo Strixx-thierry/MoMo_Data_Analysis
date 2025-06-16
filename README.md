@@ -2,15 +2,24 @@
 
 A full-stack application for analyzing MTN Mobile Money SMS transactions. This application processes SMS data in XML format, stores it in a PostgreSQL database, and provides an interactive dashboard for visualization and analysis.
 
+## Requested  PDF report 
+detailed report in pdf report
+
 ## Features
 
-- XML file upload and processing
+- XML file processing
 - Transaction categorization and analysis
 - Interactive dashboard with charts and statistics
 - Real-time data updates
 - Responsive design
 
 ## Tech Stack
+html5 
+css
+javascript
+python
+node
+postgress
 
 ### Backend
 - Node.js
@@ -63,22 +72,17 @@ npm start
 
 5. Open the frontend:
 - Open `index.html` in your web browser
-- Or serve it using a local server:
-```bash
-python -m http.server 8080
-```
 
 ## Usage
 
 1. Open the dashboard in your web browser
-2. Click "Import XML" to upload your SMS data file
+2. Click "refresh data" 
 3. Wait for the processing to complete
 4. View the dashboard with charts and statistics
 5. Use the filters to analyze specific transaction types or date ranges
 
 ## API Endpoints
-
-- `POST /upload`: Upload and process XML file
+ 
 - `GET /transactions`: Get list of transactions
 - `GET /statistics`: Get transaction statistics
 
@@ -93,13 +97,5 @@ python -m http.server 8080
 ## License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
-
-## Authors
-
-- Your Name - Initial work
-
-## Acknowledgments
-
-- MTN Rwanda for the inspiration
-- Express.js documentation
-- Chart.js documentation
+ 
+ 
