@@ -93,13 +93,5 @@ python -m http.server 8080
 ## License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
-
-## Authors
-
-- Your Name - Initial work
-
-## Acknowledgments
-
-- MTN Rwanda for the inspiration
-- Express.js documentation
-- Chart.js documentation
+ 
+ 
