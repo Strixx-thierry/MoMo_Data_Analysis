@@ -57,10 +57,12 @@
                 <div class="flex items-center space-x-2">
                     <h1 class="text-2xl font-bold">MoMo SMS Dashboard</h1>
                 </div>
-                <button id="importBtn" class="bg-white text-indigo-900 px-4 py-2 rounded-lg font-semibold hover:bg-indigo-100 transition flex items-center space-x-2">
-                    <i class="fas fa-file-import"></i>
-                    <span>Import XML</span>
-                </button>
+                <div class="flex items-center space-x-4">
+                    <button id="refreshBtn" class="bg-white text-indigo-900 px-4 py-2 rounded-lg font-semibold hover:bg-indigo-100 transition flex items-center space-x-2">
+                        <i class="fas fa-sync-alt"></i>
+                        <span>Refresh Data</span>
+                    </button>
+                </div>
             </div>
         </header>
 
@@ -71,28 +73,28 @@
                 <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-indigo-500">
                     <h3 class="text-gray-500 text-sm font-medium">Total Transactions</h3>
                     <div class="mt-2 flex justify-between items-end">
-                        <p class="text-3xl font-bold text-gray-900">1,648</p>
+                        <p class="text-3xl font-bold text-gray-900 total-transactions">0</p>
                         <span class="bg-indigo-100 text-indigo-800 px-2 py-1 rounded-full text-xs font-medium">+12%</span>
                     </div>
                 </div>
                 <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-green-500">
                     <h3 class="text-gray-500 text-sm font-medium">Incoming Payments</h3>
                     <div class="mt-2 flex justify-between items-end">
-                        <p class="text-3xl font-bold text-gray-900">RWF 5,420,000</p>
+                        <p class="text-3xl font-bold text-gray-900 total-amount">RWF 0</p>
                         <span class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs font-medium">+8.5%</span>
                     </div>
                 </div>
                 <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-yellow-500">
                     <h3 class="text-gray-500 text-sm font-medium">Outgoing Payments</h3>
                     <div class="mt-2 flex justify-between items-end">
-                        <p class="text-3xl font-bold text-gray-900">RWF 3,870,000</p>
+                        <p class="text-3xl font-bold text-gray-900">RWF 0</p>
                         <span class="bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full text-xs font-medium">-3.2%</span>
                     </div>
                 </div>
                 <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-red-500">
                     <h3 class="text-gray-500 text-sm font-medium">Fees Collected</h3>
                     <div class="mt-2 flex justify-between items-end">
-                        <p class="text-3xl font-bold text-gray-900">RWF 124,500</p>
+                        <p class="text-3xl font-bold text-gray-900">RWF 0</p>
                         <span class="bg-red-100 text-red-800 px-2 py-1 rounded-full text-xs font-medium">+5.1%</span>
                     </div>
                 </div>
@@ -218,61 +220,7 @@
                                 </tr>
                             </thead>
                             <tbody class="bg-white divide-y divide-gray-200">
-                                <tr class="hover:bg-gray-50 transition transaction-item">
-                                    <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900">2024-03-15</td>
-                                    <td class="px-4 py-4 whitespace-nowrap">
-                                        <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                                            Incoming
-                                        </span>
-                                    </td>
-                                    <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900">RWF 50,000</td>
-                                    <td class="px-4 py-4 text-sm text-gray-900 truncate max-w-xs">From John Doe (250788123456)</td>
-                                    <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900">Completed</td>
-                                </tr>
-                                <tr class="hover:bg-gray-50 transition transaction-item">
-                                    <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900">2024-03-15</td>
-                                    <td class="px-4 py-4 whitespace-nowrap">
-                                        <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
-                                            Cash Power
-                                        </span>
-                                    </td>
-                                    <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900">RWF 15,000</td>
-                                    <td class="px-4 py-4 text-sm text-gray-900 truncate max-w-xs">Meter: 123456789012</td>
-                                    <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900">Completed</td>
-                                </tr>
-                                <tr class="hover:bg-gray-50 transition transaction-item">
-                                    <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900">2024-03-14</td>
-                                    <td class="px-4 py-4 whitespace-nowrap">
-                                        <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
-                                            Bank Deposit
-                                        </span>
-                                    </td>
-                                    <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900">RWF 100,000</td>
-                                    <td class="px-4 py-4 text-sm text-gray-900 truncate max-w-xs">To Bank of Kigali (Account: 1234567890)</td>
-                                    <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900">Completed</td>
-                                </tr>
-                                <tr class="hover:bg-gray-50 transition transaction-item">
-                                    <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900">2024-03-14</td>
-                                    <td class="px-4 py-4 whitespace-nowrap">
-                                        <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-purple-100 text-purple-800">
-                                            Airtime
-                                        </span>
-                                    </td>
-                                    <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900">RWF 5,000</td>
-                                    <td class="px-4 py-4 text-sm text-gray-900 truncate max-w-xs">Self (250788123456)</td>
-                                    <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900">Completed</td>
-                                </tr>
-                                <tr class="hover:bg-gray-50 transition transaction-item">
-                                    <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900">2024-03-13</td>
-                                    <td class="px-4 py-4 whitespace-nowrap">
-                                        <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
-                                            Withdrawal
-                                        </span>
-                                    </td>
-                                    <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900">RWF 20,000</td>
-                                    <td class="px-4 py-4 text-sm text-gray-900 truncate max-w-xs">Agent: Jane Doe (250788654321)</td>
-                                    <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900">Completed</td>
-                                </tr>
+                                <!-- Transactions will be dynamically added here -->
                             </tbody>
                         </table>
                     </div>
@@ -294,108 +242,6 @@
                 <p>© 2024 MTN Rwanda MoMo SMS Dashboard. All rights reserved.</p>
             </div>
         </footer>
-
-        <!-- Import XML Modal -->
-        <div id="importModal" class="modal fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center p-4 z-50 hide">
-            <div class="bg-white rounded-xl shadow-xl w-full max-w-2xl">
-                <div class="p-6">
-                    <div class="flex justify-between items-center mb-4">
-                        <h3 class="text-xl font-bold text-gray-900">Import SMS XML Data</h3>
-                        <button id="closeModalBtn" class="text-gray-500 hover:text-gray-700">
-                            <i class="fas fa-times"></i>
-                        </button>
-                    </div>
-                    
-                    <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
-                        <div class="flex flex-col items-center justify-center space-y-4">
-                            <i class="fas fa-file-upload text-indigo-500 text-4xl"></i>
-                            <h4 class="text-lg font-medium text-gray-900">Drag and drop your XML file here</h4>
-                            <p class="text-sm text-gray-500">or</p>
-                            <label class="cursor-pointer bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition">
-                                <span>Browse Files</span>
-                                <input type="file" id="xmlFileInput" accept=".xml" class="hidden">
-                            </label>
-                            <p class="text-xs text-gray-500">Supports .xml files only</p>
-                        </div>
-                    </div>
-                    
-                    <div id="fileDetails" class="mt-4 hidden">
-                        <div class="flex items-center justify-between bg-gray-100 p-3 rounded-lg">
-                            <div class="flex items-center space-x-3">
-                                <i class="fas fa-file-code text-indigo-500"></i>
-                                <div>
-                                    <p class="text-sm font-medium" id="fileName">sms_data.xml</p>
-                                    <p class="text-xs text-gray-500" id="fileSize">12.5 KB</p>
-                                </div>
-                            </div>
-                            <button id="removeFileBtn" class="text-red-500 hover:text-red-700">
-                                <i class="fas fa-times"></i>
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <div class="mt-6">
-                        <label class="flex items-start space-x-2">
-                            <input type="checkbox" class="mt-1 rounded">
-                            <span class="text-sm">I confirm this XML file contains only MTN MoMo SMS data in the correct format</span>
-                        </label>
-                    </div>
-                    
-                    <div class="mt-6 flex justify-end space-x-3">
-                        <button id="cancelImportBtn" class="px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg border border-gray-300 transition">
-                            Cancel
-                        </button>
-                        <button id="processImportBtn" class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition disabled:opacity-50 disabled:cursor-not-allowed" disabled>
-                            <span id="importBtnText">Process & Import</span>
-                            <span id="importSpinner" class="hidden ml-2">
-                                <i class="fas fa-spinner fa-spin"></i>
-                            </span>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Processing Modal -->
-        <div id="processingModal" class="modal fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center p-4 z-50 hide">
-            <div class="bg-white rounded-xl shadow-xl w-full max-w-md p-6">
-                <div class="flex flex-col items-center">
-                    <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-500 mb-4"></div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-2">Processing XML File</h3>
-                    <p class="text-sm text-gray-600 text-center mb-4">Please wait while we parse and categorize your SMS data. This may take a few moments.</p>
-                    <div class="w-full bg-gray-200 rounded-full h-2 mb-4">
-                        <div id="progressBar" class="bg-indigo-600 h-2 rounded-full" style="width: 0%"></div>
-                    </div>
-                    <p id="progressText" class="text-xs text-gray-500">Processing: 0%</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Success Modal -->
-        <div id="successModal" class="modal fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center p-4 z-50 hide">
-            <div class="bg-white rounded-xl shadow-xl w-full max-w-md p-6">
-                <div class="flex flex-col items-center">
-                    <div class="bg-green-100 rounded-full p-3 mb-4">
-                        <i class="fas fa-check-circle text-green-500 text-4xl"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-2">Import Successful</h3>
-                    <p class="text-sm text-gray-600 text-center mb-4">1,648 transactions processed and imported to the database.</p>
-                    <div class="grid grid-cols-2 gap-4 w-full mb-4">
-                        <div class="bg-green-50 p-3 rounded-lg text-center">
-                            <p class="text-green-800 font-bold text-lg">45</p>
-                            <p class="text-xs text-green-600">Failed to process</p>
-                        </div>
-                        <div class="bg-blue-50 p-3 rounded-lg text-center">
-                            <p class="text-blue-800 font-bold text-lg">1,603</p>
-                            <p class="text-xs text-blue-600">Successfully imported</p>
-                        </div>
-                    </div>
-                    <button id="closeSuccessModalBtn" class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition w-full">
-                        Continue to Dashboard
-                    </button>
-                </div>
-            </div>
-        </div>
     </div>
 
     <script>
@@ -488,117 +334,6 @@
                 }
             });
 
-            // Modal functionality
-            const importModal = document.getElementById('importModal');
-            const importBtn = document.getElementById('importBtn');
-            const closeModalBtn = document.getElementById('closeModalBtn');
-            const cancelImportBtn = document.getElementById('cancelImportBtn');
-            const processingModal = document.getElementById('processingModal');
-            const successModal = document.getElementById('successModal');
-            const closeSuccessModalBtn = document.getElementById('closeSuccessModalBtn');
-            const xmlFileInput = document.getElementById('xmlFileInput');
-            const fileDetails = document.getElementById('fileDetails');
-            const fileName = document.getElementById('fileName');
-            const fileSize = document.getElementById('fileSize');
-            const removeFileBtn = document.getElementById('removeFileBtn');
-            const processImportBtn = document.getElementById('processImportBtn');
-            const importBtnText = document.getElementById('importBtnText');
-            const importSpinner = document.getElementById('importSpinner');
-            const progressBar = document.getElementById('progressBar');
-            const progressText = document.getElementById('progressText');
-            const timeRangeBtn = document.getElementById('timeRangeBtn');
-            const timeRangeMenu = document.getElementById('timeRangeMenu');
-
-            // Toggle import modal
-            function toggleModal(modal, show) {
-                if (show) {
-                    modal.classList.remove('hide');
-                    modal.classList.add('show');
-                } else {
-                    modal.classList.remove('show');
-                    modal.classList.add('hide');
-                }
-            }
-
-            importBtn.addEventListener('click', () => toggleModal(importModal, true));
-            closeModalBtn.addEventListener('click', () => toggleModal(importModal, false));
-            cancelImportBtn.addEventListener('click', () => toggleModal(importModal, false));
-            closeSuccessModalBtn.addEventListener('click', () => {
-                toggleModal(successModal, false);
-                // Refresh charts (simulated)
-                transactionTypeChart.data.datasets[0].data = [525, 360, 290, 250, 130, 93];
-                transactionTypeChart.update();
-                monthlyTrendChart.data.datasets[0].data = [450000, 520000, 490000, 560000, 610000, 650000, 700000, 680000, 720000, 750000, 780000, 820000];
-                monthlyTrendChart.data.datasets[1].data = [320000, 380000, 350000, 410000, 450000, 480000, 520000, 500000, 550000, 580000, 610000, 650000];
-                monthlyTrendChart.update();
-            });
-
-            // File upload handling
-            xmlFileInput.addEventListener('change', async function(e) {
-                if (this.files.length > 0) {
-                    const file = this.files[0];
-                    fileName.textContent = file.name;
-                    fileSize.textContent = (file.size / 1024).toFixed(1) + ' KB';
-                    fileDetails.classList.remove('hidden');
-                    processImportBtn.disabled = false;
-                }
-            });
-
-            removeFileBtn.addEventListener('click', function() {
-                xmlFileInput.value = '';
-                fileDetails.classList.add('hidden');
-                processImportBtn.disabled = true;
-            });
-
-            // Processing simulation
-            processImportBtn.addEventListener('click', async function() {
-                if (!xmlFileInput.files.length) return;
-                
-                const file = xmlFileInput.files[0];
-                const formData = new FormData();
-                formData.append('file', file);
-                
-                toggleModal(importModal, false);
-                toggleModal(processingModal, true);
-                
-                try {
-                    const response = await fetch(`${API_BASE_URL}/upload`, {
-                        method: 'POST',
-                        body: formData
-                    });
-                    
-                    if (!response.ok) {
-                        throw new Error('Upload failed');
-                    }
-                    
-                    const result = await response.json();
-                    console.log('Upload successful:', result);
-                    
-                    // Refresh data after successful upload
-                    await refreshDashboardData();
-                    
-                    toggleModal(processingModal, false);
-                    toggleModal(successModal, true);
-                } catch (error) {
-                    console.error('Upload error:', error);
-                    alert('Failed to upload file. Please try again.');
-                    toggleModal(processingModal, false);
-                    toggleModal(importModal, true);
-                }
-            });
-
-            // Time range dropdown
-            timeRangeBtn.addEventListener('click', () => {
-                timeRangeMenu.classList.toggle('open');
-            });
-
-            // Close dropdown when clicking outside
-            document.addEventListener('click', (e) => {
-                if (!timeRangeBtn.contains(e.target) && !timeRangeMenu.contains(e.target)) {
-                    timeRangeMenu.classList.remove('open');
-                }
-            });
-
             // Function to refresh dashboard data
             async function refreshDashboardData() {
                 try {
@@ -607,7 +342,7 @@
                     const stats = await statsResponse.json();
                     
                     // Update summary cards
-                    document.querySelector('.total-transactions').textContent = stats.total_transactions;
+                    document.querySelector('.total-transactions').textContent = stats.total_transactions.toLocaleString();
                     document.querySelector('.total-amount').textContent = `RWF ${stats.total_amount.toLocaleString()}`;
                     
                     // Update transaction type chart
@@ -638,26 +373,12 @@
                     
                 } catch (error) {
                     console.error('Error refreshing data:', error);
+                    alert('Failed to refresh dashboard data. Please try again.');
                 }
             }
 
-            // Helper function to get color based on transaction type
-            function getTypeColor(type) {
-                const colors = {
-                    'incoming_money': 'green',
-                    'payment': 'blue',
-                    'transfer': 'yellow',
-                    'bank_deposit': 'purple',
-                    'airtime': 'indigo',
-                    'cash_power': 'red',
-                    'third_party': 'pink',
-                    'withdrawal': 'orange',
-                    'bank_transfer': 'teal',
-                    'bundle': 'cyan',
-                    'other': 'gray'
-                };
-                return colors[type] || 'gray';
-            }
+            // Add refresh button event listener
+            document.getElementById('refreshBtn').addEventListener('click', refreshDashboardData);
 
             // Initial data load
             refreshDashboardData();
