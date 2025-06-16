@@ -4,11 +4,11 @@ import sqlite3
 from datetime import datetime
 import json
 
-app = Flask(__name__)
+app = Flask(_name_)
 CORS(app)  # Enable CORS for frontend integration
 
 class DatabaseManager:
-    def __init__(self, db_file="../transactions.db"):
+    def _init_(self, db_file="transactions.db"):
         self.db_file = db_file
     
     def get_connection(self):
@@ -222,7 +222,7 @@ def get_transaction_types():
             'message': str(e)
         }), 500
 
-if __name__ == '__main__':
+if _name_ == '_main_':
     print("Starting SMS Transaction Dashboard API...")
     print("API will be available at: http://localhost:5000")
     print("Available endpoints:")
@@ -231,4 +231,4 @@ if __name__ == '__main__':
     print("- GET /api/analytics/summary - Get analytics summary")
     print("- GET /api/transaction-types - Get available transaction types")
     
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    app.run(debug=True, host='0.0.0.0', port=5000
