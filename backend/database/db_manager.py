@@ -35,9 +35,9 @@ class DBManager:
                 return True
         except sqlite3.IntegrityError:
             pass
-            # # handle duplicate entries
-            # print(f"Duplicate entry for transaction_id: {data.get('transaction_id')}")
-            # return False
+            # handle duplicate entries
+            print(f"Duplicate entry for transaction_id: {data.get('transaction_id')}")
+            return False
     def close(self):
         self.conn.close()
             
