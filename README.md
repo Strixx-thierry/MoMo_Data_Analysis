@@ -63,22 +63,17 @@ npm start
 
 5. Open the frontend:
 - Open `index.html` in your web browser
-- Or serve it using a local server:
-```bash
-python -m http.server 8080
-```
 
 ## Usage
 
 1. Open the dashboard in your web browser
-2. Click "Import XML" to upload your SMS data file
+2. Click "refresh data" 
 3. Wait for the processing to complete
 4. View the dashboard with charts and statistics
 5. Use the filters to analyze specific transaction types or date ranges
 
 ## API Endpoints
-
-- `POST /upload`: Upload and process XML file
+ 
 - `GET /transactions`: Get list of transactions
 - `GET /statistics`: Get transaction statistics
 
