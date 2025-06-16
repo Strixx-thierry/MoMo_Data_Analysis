@@ -1,8 +1,10 @@
 import os
+import json
 from data_cleaning.sms_loader import SMSLoader
 from data_cleaning.categorizer import SMSCategorizer
 from data_cleaning.cleaner import SMSCleaner
 from database.db_manager import DBManager
+
 
 
 def main():
@@ -64,6 +66,16 @@ def main():
         db.insert_transactions(item)
     db.close()
     
+    
+    # Export cleaned data to JSON
+    
+    with open('cleaned_sms_data.json', 'w') as f:
+        json.dump(cleaner.cleaned_data, f, indent=2)
+    
+    print("\nProcessing complete! Check the following files:")
+    print("- transactions.db (SQLite database)")
+    print("- cleaned_sms_data.json (JSON export)")
+    print("- unprocessed.log (Unprocessed messages)")
     
 
 if __name__ == "__main__":
