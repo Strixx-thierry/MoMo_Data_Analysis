@@ -7,6 +7,8 @@ class DBManager:
         self.create_tables()
         
     def create_tables(self):
+        # Drop existing tables if they exist
+        self.conn.execute('DROP TABLE IF EXISTS transactions;')
         # Read schema file and execute
         with open('database/schema.sql', 'r') as f:
             schema = f.read()
