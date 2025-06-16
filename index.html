@@ -7,48 +7,50 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        .modal {
-            transition: all 0.3s ease;
-        }
-        .modal.show {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0);
-        }
-        .modal.hide {
-            opacity: 0;
-            visibility: hidden;
-            transform: translateY(-20px);
-        }
-        .dropdown-menu {
-            transition: all 0.3s ease;
-            max-height: 0;
-            overflow: hidden;
-        }
-        .dropdown-menu.open {
-            max-height: 300px;
-        }
-        .transaction-item:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #f1f1f1;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #888;
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #555;
-        }
-    </style>
+    
 </head>
+<style>
+    .modal {
+        transition: all 0.3s ease;
+    }
+    .modal.show {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+    }
+    .modal.hide {
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-20px);
+    }
+    .dropdown-menu {
+        transition: all 0.3s ease;
+        max-height: 0;
+        overflow: hidden;
+    }
+    .dropdown-menu.open {
+        max-height: 300px;
+    }
+    .transaction-item:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    
+    ::-webkit-scrollbar {
+        width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+        background: #f1f1f1;
+    }
+    ::-webkit-scrollbar-thumb {
+        background: #888;
+        border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+        background: #555;
+    }
+</style>
+
 <body class="bg-gray-100 font-sans">
     <div class="flex flex-col min-h-screen">
         <!-- Header -->
@@ -60,8 +62,12 @@
                 <div class="flex items-center space-x-4">
                     <button id="refreshBtn" class="bg-white text-indigo-900 px-4 py-2 rounded-lg font-semibold hover:bg-indigo-100 transition flex items-center space-x-2">
                         <i class="fas fa-sync-alt"></i>
-                        <span>Refresh Data</span>
+                        <span>Import Data</span>
                     </button>
+                    <div id="loadingIndicator" class="hidden flex items-center space-x-2">
+                        <i class="fas fa-spinner fa-spin"></i>
+                        <span>Loading...</span>
+                    </div>
                 </div>
             </div>
         </header>
@@ -73,28 +79,28 @@
                 <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-indigo-500">
                     <h3 class="text-gray-500 text-sm font-medium">Total Transactions</h3>
                     <div class="mt-2 flex justify-between items-end">
-                        <p class="text-3xl font-bold text-gray-900 total-transactions">0</p>
+                        <p id="total-transactions" class="text-3xl font-bold text-gray-900">0</p>
                         <span class="bg-indigo-100 text-indigo-800 px-2 py-1 rounded-full text-xs font-medium">+12%</span>
                     </div>
                 </div>
                 <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-green-500">
-                    <h3 class="text-gray-500 text-sm font-medium">Incoming Payments</h3>
+                    <h3 class="text-gray-500 text-sm font-medium">Total Amount</h3>
                     <div class="mt-2 flex justify-between items-end">
-                        <p class="text-3xl font-bold text-gray-900 total-amount">RWF 0</p>
+                        <p id="total-amount" class="text-3xl font-bold text-gray-900">RWF 0</p>
                         <span class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs font-medium">+8.5%</span>
                     </div>
                 </div>
                 <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-yellow-500">
-                    <h3 class="text-gray-500 text-sm font-medium">Outgoing Payments</h3>
+                    <h3 class="text-gray-500 text-sm font-medium">Average Amount</h3>
                     <div class="mt-2 flex justify-between items-end">
-                        <p class="text-3xl font-bold text-gray-900">RWF 0</p>
+                        <p id="avg-amount" class="text-3xl font-bold text-gray-900">RWF 0</p>
                         <span class="bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full text-xs font-medium">-3.2%</span>
                     </div>
                 </div>
                 <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-red-500">
-                    <h3 class="text-gray-500 text-sm font-medium">Fees Collected</h3>
+                    <h3 class="text-gray-500 text-sm font-medium">Unique Senders</h3>
                     <div class="mt-2 flex justify-between items-end">
-                        <p class="text-3xl font-bold text-gray-900">RWF 0</p>
+                        <p id="unique-senders" class="text-3xl font-bold text-gray-900">0</p>
                         <span class="bg-red-100 text-red-800 px-2 py-1 rounded-full text-xs font-medium">+5.1%</span>
                     </div>
                 </div>
@@ -111,15 +117,6 @@
                                 <span class="font-medium">Last 30 days</span>
                                 <i class="fas fa-chevron-down"></i>
                             </button>
-                            <div id="timeRangeMenu" class="dropdown-menu absolute z-10 mt-2 w-40 bg-white rounded-md shadow-lg border border-gray-200">
-                                <div class="py-1">
-                                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Last 7 days</a>
-                                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Last 30 days</a>
-                                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Last 90 days</a>
-                                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">This year</a>
-                                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">All time</a>
-                                </div>
-                            </div>
                         </div>
                     </div>
                     <div class="h-64">
@@ -129,109 +126,37 @@
 
                 <!-- Transaction Types Breakdown -->
                 <div class="bg-white rounded-xl shadow-md p-6">
-                    <h2 class="text-lg font-bold text-gray-900 mb-4">Transaction Type Breakdown</h2>
-                    <div class="space-y-4">
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center space-x-2">
-                                <div class="w-3 h-3 rounded-full bg-indigo-500"></div>
-                                <span class="text-sm font-medium">Incoming Payments</span>
-                            </div>
-                            <span class="text-sm font-medium">32%</span>
-                        </div>
-                        <div class="w-full bg-gray-200 rounded-full h-2">
-                            <div class="bg-indigo-500 h-2 rounded-full" style="width: 32%"></div>
-                        </div>
-                        
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center space-x-2">
-                                <div class="w-3 h-3 rounded-full bg-green-500"></div>
-                                <span class="text-sm font-medium">Airtime Purchases</span>
-                            </div>
-                            <span class="text-sm font-medium">22%</span>
-                        </div>
-                        <div class="w-full bg-gray-200 rounded-full h-2">
-                            <div class="bg-green-500 h-2 rounded-full" style="width: 22%"></div>
-                        </div>
-                        
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center space-x-2">
-                                <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
-                                <span class="text-sm font-medium">Bank Deposits</span>
-                            </div>
-                            <span class="text-sm font-medium">18%</span>
-                        </div>
-                        <div class="w-full bg-gray-200 rounded-full h-2">
-                            <div class="bg-yellow-500 h-2 rounded-full" style="width: 18%"></div>
-                        </div>
-                        
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center space-x-2">
-                                <div class="w-3 h-3 rounded-full bg-blue-500"></div>
-                                <span class="text-sm font-medium">Cash Power</span>
-                            </div>
-                            <span class="text-sm font-medium">15%</span>
-                        </div>
-                        <div class="w-full bg-gray-200 rounded-full h-2">
-                            <div class="bg-blue-500 h-2 rounded-full" style="width: 15%"></div>
-                        </div>
-                        
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center space-x-2">
-                                <div class="w-3 h-3 rounded-full bg-red-500"></div>
-                                <span class="text-sm font-medium">Withdrawals</span>
-                            </div>
-                            <span class="text-sm font-medium">8%</span>
-                        </div>
-                        <div class="w-full bg-gray-200 rounded-full h-2">
-                            <div class="bg-red-500 h-2 rounded-full" style="width: 8%"></div>
-                        </div>
-                        
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center space-x-2">
-                                <div class="w-3 h-3 rounded-full bg-purple-500"></div>
-                                <span class="text-sm font-medium">Other</span>
-                            </div>
-                            <span class="text-sm font-medium">5%</span>
-                        </div>
-                        <div class="w-full bg-gray-200 rounded-full h-2">
-                            <div class="bg-purple-500 h-2 rounded-full" style="width: 5%"></div>
-                        </div>
+                    <h2 class="text-lg font-bold text-gray-900 mb-4">Top Senders</h2>
+                    <div id="sender-stats" class="space-y-2">
+                        <!-- Sender stats will be dynamically added here -->
                     </div>
                 </div>
             </div>
 
             <!-- Recent Transactions and Monthly Trend -->
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <!-- Recent Transactions -->
-                <div class="lg:col-span-2 bg-white rounded-xl shadow-md p-6">
-                    <div class="flex justify-between items-center mb-4">
-                        <h2 class="text-lg font-bold text-gray-900">Recent Transactions</h2>
-                        <button class="text-indigo-600 hover:text-indigo-800 font-medium text-sm">View All</button>
-                    </div>
-                    <div class="overflow-x-auto">
-                        <table class="min-w-full divide-y divide-gray-200">
-                            <thead>
-                                <tr>
-                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
-                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
-                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount</th>
-                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Details</th>
-                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                                </tr>
-                            </thead>
-                            <tbody class="bg-white divide-y divide-gray-200">
-                                <!-- Transactions will be dynamically added here -->
-                            </tbody>
-                        </table>
-                    </div>
+                <!-- Transaction Types List -->
+                <div class="bg-white rounded-xl shadow-md p-6">
+                    <h2 class="text-lg font-bold text-gray-900 mb-4">Transaction Types</h2>
+                    <ul id="transaction-types" class="space-y-2">
+                        <!-- Transaction types will be dynamically added here -->
+                    </ul>
                 </div>
 
                 <!-- Monthly Trend -->
                 <div class="bg-white rounded-xl shadow-md p-6">
-                    <h2 class="text-lg font-bold text-gray-900 mb-4">Monthly Transaction Trend</h2>
-                    <div class="h-64">
-                        <canvas id="monthlyTrendChart"></canvas>
-                    </div>
+                    <h2 class="text-lg font-bold text-gray-900 mb-4">Monthly Breakdown</h2>
+                    <ul id="time-stats" class="space-y-2">
+                        <!-- Time stats will be dynamically added here -->
+                    </ul>
+                </div>
+
+                <!-- Status Stats -->
+                <div class="bg-white rounded-xl shadow-md p-6">
+                    <h2 class="text-lg font-bold text-gray-900 mb-4">Transaction Status</h2>
+                    <ul id="status-stats" class="space-y-2">
+                        <!-- Status stats will be dynamically added here -->
+                    </ul>
                 </div>
             </div>
         </main>
@@ -245,28 +170,200 @@
     </div>
 
     <script>
-        // API endpoints
-        const API_BASE_URL = 'http://localhost:3000';
-        
-        // Initialize charts when the DOM is loaded
-        document.addEventListener('DOMContentLoaded', function() {
-            // Transaction Types Chart (Pie)
-            const ctxPie = document.getElementById('transactionTypeChart').getContext('2d');
-            const transactionTypeChart = new Chart(ctxPie, {
+        let transactionTypeChart;
+
+        // Function to show loading indicator
+        function showLoading() {
+            document.getElementById('loadingIndicator').classList.remove('hidden');
+            document.getElementById('refreshBtn').disabled = true;
+        }
+
+        // Function to hide loading indicator
+        function hideLoading() {
+            document.getElementById('loadingIndicator').classList.add('hidden');
+            document.getElementById('refreshBtn').disabled = false;
+        }
+
+        // Add file input element to the header
+        const headerDiv = document.querySelector('header .container');
+        const fileInput = document.createElement('input');
+        fileInput.type = 'file';
+        fileInput.accept = '.json';
+        fileInput.className = 'hidden';
+        fileInput.id = 'jsonFileInput';
+        headerDiv.appendChild(fileInput);
+
+        // Modify the refresh button to trigger file input
+        const refreshBtn = document.getElementById('refreshBtn');
+        refreshBtn.onclick = () => {
+            document.getElementById('jsonFileInput').click();
+        };
+
+        // Handle file selection
+        fileInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                showLoading();
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    try {
+                        const data = JSON.parse(e.target.result);
+                        processData(data);
+                    } catch (error) {
+                        console.error('Error parsing JSON:', error);
+                        alert('Error loading data. Please make sure the file is valid JSON.');
+                    } finally {
+                        hideLoading();
+                    }
+                };
+                reader.readAsText(file);
+            }
+        });
+
+        function processData(data) {
+            console.log('Processing data:', data);
+            
+            // Process transaction data
+            const transactions = data.filter(msg => msg.type && msg.amount);
+            const totalTransactions = transactions.length;
+            const totalAmount = transactions.reduce((sum, t) => sum + (parseFloat(t.amount) || 0), 0);
+            const avgAmount = totalTransactions > 0 ? totalAmount / totalTransactions : 0;
+
+            // Get unique senders
+            const uniqueSenders = new Set(transactions.map(t => t.sender).filter(sender => sender)).size;
+
+            // Update summary cards
+            document.getElementById('total-transactions').textContent = totalTransactions.toLocaleString();
+            document.getElementById('total-amount').textContent = `RWF ${totalAmount.toLocaleString()}`;
+            document.getElementById('avg-amount').textContent = `RWF ${Math.round(avgAmount).toLocaleString()}`;
+            document.getElementById('unique-senders').textContent = uniqueSenders.toLocaleString();
+
+            // Process sender data
+            const senderStats = {};
+            transactions.forEach(t => {
+                if (t.sender) {
+                    senderStats[t.sender] = (senderStats[t.sender] || 0) + (parseFloat(t.amount) || 0);
+                }
+            });
+
+            // Update sender stats (top 10)
+            const senderStatsList = document.getElementById('sender-stats');
+            senderStatsList.innerHTML = '';
+            Object.entries(senderStats)
+                .sort((a, b) => b[1] - a[1])
+                .slice(0, 10)
+                .forEach(([sender, amount]) => {
+                    const div = document.createElement('div');
+                    div.className = 'flex justify-between items-center py-1 text-sm';
+                    div.innerHTML = `
+                        <span class="truncate mr-2">${sender}</span>
+                        <span class="font-medium text-green-600">RWF ${amount.toLocaleString()}</span>
+                    `;
+                    senderStatsList.appendChild(div);
+                });
+
+            // Process transaction types
+            const typeStats = {};
+            transactions.forEach(t => {
+                if (t.type) {
+                    typeStats[t.type] = (typeStats[t.type] || 0) + 1;
+                }
+            });
+
+            // Update transaction types
+            const typeStatsList = document.getElementById('transaction-types');
+            typeStatsList.innerHTML = '';
+            Object.entries(typeStats)
+                .sort((a, b) => b[1] - a[1])
+                .forEach(([type, count]) => {
+                    const li = document.createElement('li');
+                    li.className = 'flex justify-between items-center py-1 text-sm';
+                    li.innerHTML = `
+                        <span>${type}</span>
+                        <span class="font-medium text-indigo-600">${count}</span>
+                    `;
+                    typeStatsList.appendChild(li);
+                });
+
+            // Process time-based data
+            const timeStats = {};
+            transactions.forEach(t => {
+                if (t.raw_date) {
+                    const date = new Date(t.raw_date);
+                    if (!isNaN(date.getTime())) {
+                        const month = date.toLocaleString('default', { month: 'long', year: 'numeric' });
+                        timeStats[month] = (timeStats[month] || 0) + (parseFloat(t.amount) || 0);
+                    }
+                }
+            });
+
+            // Update time-based stats
+            const timeStatsList = document.getElementById('time-stats');
+            timeStatsList.innerHTML = '';
+            Object.entries(timeStats)
+                .sort((a, b) => new Date(a[0]) - new Date(b[0]))
+                .forEach(([month, amount]) => {
+                    const li = document.createElement('li');
+                    li.className = 'flex justify-between items-center py-1 text-sm';
+                    li.innerHTML = `
+                        <span>${month}</span>
+                        <span class="font-medium text-blue-600">RWF ${amount.toLocaleString()}</span>
+                    `;
+                    timeStatsList.appendChild(li);
+                });
+
+            // Process status data
+            const statusStats = {};
+            transactions.forEach(t => {
+                if (t.status) {
+                    statusStats[t.status] = (statusStats[t.status] || 0) + 1;
+                }
+            });
+
+            // Update status stats
+            const statusStatsList = document.getElementById('status-stats');
+            statusStatsList.innerHTML = '';
+            Object.entries(statusStats)
+                .sort((a, b) => b[1] - a[1])
+                .forEach(([status, count]) => {
+                    const li = document.createElement('li');
+                    li.className = 'flex justify-between items-center py-1 text-sm';
+                    li.innerHTML = `
+                        <span>${status}</span>
+                        <span class="font-medium text-purple-600">${count}</span>
+                    `;
+                    statusStatsList.appendChild(li);
+                });
+
+            // Update the pie chart
+            updateTransactionTypeChart(typeStats);
+        }
+
+        function updateTransactionTypeChart(typeStats) {
+            const ctx = document.getElementById('transactionTypeChart').getContext('2d');
+            
+            // Destroy existing chart if it exists
+            if (transactionTypeChart) {
+                transactionTypeChart.destroy();
+            }
+
+            const labels = Object.keys(typeStats);
+            const data = Object.values(typeStats);
+            const colors = [
+                '#6366F1', '#10B981', '#F59E0B', '#3B82F6', 
+                '#EF4444', '#8B5CF6', '#EC4899', '#14B8A6',
+                '#F97316', '#84CC16'
+            ];
+
+            transactionTypeChart = new Chart(ctx, {
                 type: 'pie',
                 data: {
-                    labels: ['Incoming Payments', 'Airtime Purchases', 'Bank Deposits', 'Cash Power', 'Withdrawals', 'Other'],
+                    labels: labels,
                     datasets: [{
-                        data: [525, 360, 290, 250, 130, 93],
-                        backgroundColor: [
-                            '#6366F1', // indigo
-                            '#10B981', // green
-                            '#F59E0B', // yellow
-                            '#3B82F6', // blue
-                            '#EF4444', // red
-                            '#8B5CF6'  // purple
-                        ],
-                        borderWidth: 1
+                        data: data,
+                        backgroundColor: colors.slice(0, labels.length),
+                        borderWidth: 2,
+                        borderColor: '#ffffff'
                     }]
                 },
                 options: {
@@ -277,111 +374,32 @@
                             position: 'bottom',
                             labels: {
                                 boxWidth: 12,
-                                padding: 20
+                                padding: 15,
+                                font: {
+                                    size: 11
+                                }
                             }
-                        }
-                    }
-                }
-            });
-
-            // Monthly Trend Chart (Line)
-            const ctxLine = document.getElementById('monthlyTrendChart').getContext('2d');
-            const monthlyTrendChart = new Chart(ctxLine, {
-                type: 'line',
-                data: {
-                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-                    datasets: [
-                        {
-                            label: 'Incoming (RWF)',
-                            data: [450000, 520000, 490000, 560000, 610000, 650000, 700000, 680000, 720000, 750000, 780000, 820000],
-                            borderColor: '#6366F1',
-                            backgroundColor: 'rgba(99, 102, 241, 0.1)',
-                            tension: 0.3,
-                            fill: true
                         },
-                        {
-                            label: 'Outgoing (RWF)',
-                            data: [320000, 380000, 350000, 410000, 450000, 480000, 520000, 500000, 550000, 580000, 610000, 650000],
-                            borderColor: '#EF4444',
-                            backgroundColor: 'rgba(239, 68, 68, 0.1)',
-                            tension: 0.3,
-                            fill: true
-                        }
-                    ]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        y: {
-                            beginAtZero: false,
-                            ticks: {
-                                callback: function(value) {
-                                    return (value / 1000) + 'K';
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const label = context.label || '';
+                                    const value = context.parsed;
+                                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                    const percentage = ((value / total) * 100).toFixed(1);
+                                    return `${label}: ${value} (${percentage}%)`;
                                 }
                             }
                         }
-                    },
-                    plugins: {
-                        legend: {
-                            position: 'bottom',
-                            labels: {
-                                boxWidth: 12,
-                                padding: 20
-                            }
-                        }
                     }
                 }
             });
+        }
 
-            // Function to refresh dashboard data
-            async function refreshDashboardData() {
-                try {
-                    // Get statistics
-                    const statsResponse = await fetch(`${API_BASE_URL}/statistics`);
-                    const stats = await statsResponse.json();
-                    
-                    // Update summary cards
-                    document.querySelector('.total-transactions').textContent = stats.total_transactions.toLocaleString();
-                    document.querySelector('.total-amount').textContent = `RWF ${stats.total_amount.toLocaleString()}`;
-                    
-                    // Update transaction type chart
-                    const typeData = stats.type_statistics;
-                    transactionTypeChart.data.datasets[0].data = typeData.map(t => t.count);
-                    transactionTypeChart.data.labels = typeData.map(t => t.type);
-                    transactionTypeChart.update();
-                    
-                    // Get recent transactions
-                    const transactionsResponse = await fetch(`${API_BASE_URL}/transactions?limit=5`);
-                    const transactions = await transactionsResponse.json();
-                    
-                    // Update transactions table
-                    const tbody = document.querySelector('table tbody');
-                    tbody.innerHTML = transactions.map(t => `
-                        <tr class="hover:bg-gray-50 transition transaction-item">
-                            <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900">${new Date(t.timestamp).toLocaleDateString()}</td>
-                            <td class="px-4 py-4 whitespace-nowrap">
-                                <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-${getTypeColor(t.transaction_type)}-100 text-${getTypeColor(t.transaction_type)}-800">
-                                    ${t.transaction_type}
-                                </span>
-                            </td>
-                            <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900">RWF ${t.amount.toLocaleString()}</td>
-                            <td class="px-4 py-4 text-sm text-gray-900 truncate max-w-xs">${t.message}</td>
-                            <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900">${t.status}</td>
-                        </tr>
-                    `).join('');
-                    
-                } catch (error) {
-                    console.error('Error refreshing data:', error);
-                    alert('Failed to refresh dashboard data. Please try again.');
-                }
-            }
-
-            // Add refresh button event listener
-            document.getElementById('refreshBtn').addEventListener('click', refreshDashboardData);
-
-            // Initial data load
-            refreshDashboardData();
+        // Initialize the dashboard when the DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            // Show a message to select the JSON file
+            alert('Please click the "Refresh Data" button and select your cleaned_sms_data.json file to load the dashboard.');
         });
     </script>
 </body>
