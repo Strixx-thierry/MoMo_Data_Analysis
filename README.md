@@ -2,9 +2,12 @@
 
 A full-stack application for analyzing MTN Mobile Money SMS transactions. This application processes SMS data in XML format, stores it in a PostgreSQL database, and provides an interactive dashboard for visualization and analysis.
 
+## Requested  PDF report 
+detailed report in pdf report
+
 ## Features
 
-- XML file upload and processing
+- XML file processing
 - Transaction categorization and analysis
 - Interactive dashboard with charts and statistics
 - Real-time data updates
