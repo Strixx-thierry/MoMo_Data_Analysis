@@ -175,6 +175,7 @@ class SMSCleaner:
                 
             self.cleaned_data.append(data)
     def clean_all(self):
+        self.log_unprocessed_messages()
         self.clean_incoming_money()
         self.clean_payments()
         self.clean_withdrawals()
