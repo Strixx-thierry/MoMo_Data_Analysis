@@ -11,6 +11,12 @@ A full-stack application for analyzing MTN Mobile Money SMS transactions. This a
 - Responsive design
 
 ## Tech Stack
+html5 
+css
+javascript
+python
+node
+postgress
 
 ### Backend
 - Node.js
