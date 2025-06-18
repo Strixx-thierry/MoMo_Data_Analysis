@@ -1,33 +1,51 @@
 # MTN MoMo SMS Analysis Dashboard
 
-A full-stack application for analyzing MTN Mobile Money SMS transactions. This application processes SMS data in XML format, stores it in a PostgreSQL database, and provides an interactive dashboard for visualization and analysis.
+A full-stack application for analyzing MTN Mobile Money SMS transactions. This application processes SMS data in XML format, stores it in a SQLite database, and provides an interactive dashboard for visualization and analysis.
 
-## Requested  PDF report 
-detailed report in pdf report
+```
+├── backend/
+│   ├── main.py                  # Entry point: parses and inserts data
+│   ├── api/                     # Flask API to serve data
+│   │   └── app.py               # API server script
+│   ├── data_cleaning/           # Scripts for cleaning & categorizing
+│   │   ├── categorizer.py       # Categorizes SMS transactions
+│   │   ├── cleaner.py           # Cleans raw SMS data
+│   │   └── sms_loader.py        # Loads SMS data from XML
+│   ├── database/                # Database interaction logic
+│   │   ├── db_manager.py        # Database manager module
+│   │   └── schema.sql           # Database schema definition
+│   ├── transactions.db          # SQLite DB with populated data
+│   ├── cleaned_sms_data.json    # Cleaned & categorized messages
+│   └── unprocessed.log          # Messages that couldn’t be parsed
+│
+├── frontend/
+│   └── index.html               # Dashboard interface
+```
+
+## Requested PDF and demo video
+
+-Detailed report in pdf report
+
+- Click [here] [] for the demo video.
 
 ## Features
 
 - XML file processing
-- Transaction categorization and analysis
+- Categorization and analysis
 - Interactive dashboard with charts and statistics
 - Real-time data updates
 - Responsive design
 
 ## Tech Stack
-html5 
-css
-javascript
-python
-node
-postgress
 
 ### Backend
-- Node.js
-- Express.js
-- PostgreSQL
-- XML parsing with xml2js
+
+- Python
+- Flask
+- SQLite
 
 ### Frontend
+
 - HTML5
 - CSS3 (Tailwind CSS)
 - JavaScript
@@ -35,67 +53,77 @@ postgress
 
 ## Prerequisites
 
-- Node.js 14 or higher
-- PostgreSQL
-- npm or yarn
+- Python
+- Flask
 
 ## Setup Instructions
 
 1. Clone the repository:
-```bash
+
+```
 git clone <repository-url>
 cd momo-data-analysis
 ```
 
 2. Install dependencies:
-```bash
-npm install
+
+```
+pip install Flask flask-cors
 ```
 
-3. Set up PostgreSQL database:
-```bash
-# Create a new database
-createdb momo_db
+3. Run the backend(Data processing)
 
-# Set environment variables
-echo "DATABASE_URL=postgresql://postgres:postgres@localhost/momo_db" > .env
+```
+cd backend
+python3 main.py
 ```
 
-4. Run the backend server:
-```bash
-# Development mode with auto-reload
-npm run dev
+This will:
 
-# Production mode
-npm start
+- Parse the XML messages
+- Clean and categorize them
+- Insert the result into transactions.db
+
+Unprocessed messages can be viewed in the `unprocessed.log` file.
+
+### To serve data using Flask API run:
+
+```
+cd backend/api
+python3 app.py
 ```
 
-5. Open the frontend:
+This leaunches an API endpoint(e.g. http://localhost:5000) that the frontend can connect to.
+
+4. View the frontend dashboard:
+
 - Open `index.html` in your web browser
+
+The dashboard suppports:
+
+- Filtering by transaction type/date
+
+- Interactive visualizations
+
+- Detailed transaction views
 
 ## Usage
 
 1. Open the dashboard in your web browser
-2. Click "refresh data" 
-3. Wait for the processing to complete
-4. View the dashboard with charts and statistics
-5. Use the filters to analyze specific transaction types or date ranges
+2. Wait for the processing to complete
+3. View the dashboard with charts and statistics
+4. Use the filters to analyze specific transaction types or date ranges
 
 ## API Endpoints
- 
-- `GET /transactions`: Get list of transactions
-- `GET /statistics`: Get transaction statistics
 
-## Contributing
+- `GET /api/transactions` — fetch all transactions, possibly with filters like type/date.
 
-1. Fork the repository
-2. Create a feature branch
-3. Commit your changes
-4. Push to the branch
-5. Create a Pull Request
+- `GET /api/transactions/<id>` — fetch a single transaction by ID.
+
+- `GET /api/analytics/summary` — return summarized analytics (like totals per category).
+
+- `GET /api/transaction-types` — return the list of all categories/types (e.g., Airtime, Bank Transfer).
 
 ## License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
- 
- 
