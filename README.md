@@ -26,7 +26,7 @@ A full-stack application for analyzing MTN Mobile Money SMS transactions. This a
 
 -Detailed report in pdf report
 
-- Click [here] [] for the demo video.
+- Click [here]("https://youtu.be/CtuRZaMFYHs") for the demo video.
 
 ## Features
 
@@ -68,7 +68,7 @@ cd momo-data-analysis
 2. Install dependencies:
 
 ```
-pip install Flask flask-cors
+pip install -r requirements.txt
 ```
 
 3. Run the backend(Data processing)
