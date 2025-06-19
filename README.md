@@ -26,7 +26,7 @@ A full-stack application for analyzing MTN Mobile Money SMS transactions. This a
 
 -Detailed report in pdf report
 
-- [Demo video]("https://youtu.be/CtuRZaMFYHs")
+- [Demo video]("https://www.youtube.com/watch?v=CtuRZaMFYHs")
 
 ## Features
 
